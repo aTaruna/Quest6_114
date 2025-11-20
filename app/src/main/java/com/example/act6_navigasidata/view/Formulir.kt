@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.DividerDefaults.Thickness
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -49,6 +51,7 @@ fun FormIsian(
         txtgender,
         txtAlamat
     )
+
     Scaffold (modifier = Modifier,
         {
             TopAppBar(
@@ -62,27 +65,31 @@ fun FormIsian(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally){
             OutlinedTextField(
-                value = "",
+                value = txtNama,
                 singleLine = true,
+                shape = MaterialTheme.shapes.medium,
                 modifier = Modifier
                     .padding(top = 20.dp)
                     .width(250.dp),
                 label = {Text(text = "Nama Lengkap")},
-                onValueChange = {},
+                onValueChange = {txtNama=it},
             )
             HorizontalDivider(modifier = Modifier
                 .padding(top = 20.dp)
                 .width(250.dp),
                 thickness = Thickness,color = Color.Red)
             Row {
-                jenisK.forEach {
-                        item->
-                    Row (verticalAlignment = Alignment.CenterVertically){
+                jenisK.forEach { item->
+                    Row (modifier = Modifier.selectable(
+                        selected = txtgender == item,
+                        onClick = {txtgender = item}
+                    ),
+                        verticalAlignment = Alignment.CenterVertically){
                         RadioButton(
-                            selected = false,
-                            onClick = {item}
+                            selected = txtgender == item,
+                            onClick = {txtgender = item}
                         )
-                        Text(text = item)
+                        Text(item)
                     }
                 }
             }
@@ -102,7 +109,7 @@ fun FormIsian(
             Spacer(modifier = Modifier.height(30.dp))
             Button(
                 modifier = Modifier.fillMaxWidth(1f),
-                onClick = OnSubmitBtnClick
+                onClick = OnSubmitBtnClick as () -> Unit
             ) {
                 Text(text = stringResource(id = R.string.submit))
             }
