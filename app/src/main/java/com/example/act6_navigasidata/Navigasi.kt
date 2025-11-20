@@ -5,11 +5,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.act6_navigasidata.model.DataJK.JenisK
 import com.example.act6_navigasidata.view.FormIsian
 import com.example.act6_navigasidata.view.TampilData
 
@@ -33,16 +35,19 @@ fun DataApp(
             startDestination = Navigasi.FormulirQue.name,
             modifier = modifier.padding(isiRuang)) {
             composable(route = Navigasi.FormulirQue.name) {
+                val konteks = LocalContext.current
                 FormIsian(
+                    jenisK = JenisK.map{id -> konteks.resources.getString(id)},
                     OnSubmitBtnClick = {
+                        viewModel.setSiswa(it)
                         navController.navigate(Navigasi.Detail.name)
                     }
                 )
             }
             composable(route = Navigasi.Detail.name) {
                 TampilData(
-                    onBackBtnClick = {
-                        cancelAndBackToFormulirQue(navController = navController)
+                    statusUISiswa = uiState.value,
+                    onBackBtnClick = { cancelAndBackToFormulirQue(navController = navController)
                     },
                 )
             }
