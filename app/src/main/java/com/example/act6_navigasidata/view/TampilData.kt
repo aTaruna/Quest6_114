@@ -1,4 +1,4 @@
-package com.example.act6_navigasidata
+package com.example.act6_navigasidata.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,20 +23,22 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.act5_nav.R
+import com.example.act6_navigasidata.R
+import com.example.act6_navigasidata.model.Siswa
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TampilData(
+    statusUISiswa: Siswa,
     onBackBtnClick: () -> Unit
 
 
 ){
     val items = listOf(
-        Pair(stringResource(id = R.string.nama_lengkap), "Contoh Nama"),
-        Pair(stringResource(id = R.string.jenke), "Lainnya"),
-        Pair(stringResource(id = R.string.alamat), "Jogja")
+        Pair(stringResource(id = R.string.nama_lengkap), statusUISiswa.nama),
+        Pair(stringResource(id = R.string.jenke), statusUISiswa.gender),
+        Pair(stringResource(id = R.string.alamat), statusUISiswa.alamat)
     )
     Scaffold (modifier = Modifier,
         {
